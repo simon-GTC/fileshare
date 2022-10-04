@@ -1,0 +1,74 @@
+  {
+    "EntityName": "wdx_suitabilityreview",
+    "PluginMessage": "Create",
+    "ActionLogic": [
+      {
+        "Name": "Update Next Suitability Date when the Risk has value",
+        "Conditions": [
+          {
+            "Parameters": [
+              { "Name": "EntityEvaluation", "Value": "wdx_overallrisk#!=#" },
+              { "Name": "UseTarget", "Value": true }
+            ],
+            "Method": "SatisfiedEntityEvaluation"
+          }
+        ],
+        "Actions": [
+          {
+            "Method": "UpdateSuitabilityDates",
+            "Parameters": [
+              { "Name": "RiskScoreType", "Value": "NextSRDates" },
+              { "Name": "ReviewType", "Value": "kyc" }
+            ]
+          }
+        ]
+      },
+      {
+        "Name": "Create envelope with mandatory documents",
+        "Conditions": [
+          {
+            "Parameters": [
+              {
+                "Name": "EntityEvaluation",
+                "Value": "wdx_process_type#==#New Business"
+              },
+              { "Name": "UseTarget", "Value": false }
+            ],
+            "Method": "SatisfiedEntityEvaluation"
+          }
+        ],
+        "Actions": [
+          {
+            "Method": "CreateEnvelope",
+            "Parameters": [
+              { "Name": "EnvelopeEntityType", "Value": "wdx_suitabilityreview" }
+            ]
+          }
+        ]
+      },
+      {
+        "Name": "Create Empty envelope for regular reviews",
+        "Conditions": [
+          {
+            "Parameters": [
+              {
+                "Name": "EntityEvaluation",
+                "Value": "wdx_process_type#!=#New Business"
+              },
+              { "Name": "UseTarget", "Value": false }
+            ],
+            "Method": "SatisfiedEntityEvaluation"
+          }
+        ],
+        "Actions": [
+          {
+            "Method": "CreateEnvelope",
+            "Parameters": [
+              { "Name": "doNotGatherMandatoryDocuments", "Value": "true" },
+              { "Name": "EnvelopeEntityType", "Value": "wdx_suitabilityreview" }
+            ]
+          }
+        ]
+      }
+    ]
+  },
