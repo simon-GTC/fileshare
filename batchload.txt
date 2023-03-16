@@ -1605,7 +1605,7 @@ FROM
 			u.UserId,
 			t.TeamPrimaryCode,
 			t.TeamName,
-			'06 Based on Department Exception' AS MembershipType
+			'06 Based on Department Exception ' + CASE IsUserExplicit WHEN 1 THEN '(User)' ELSE '(Profile)' END AS MembershipType
 		FROM BatchLoad_Source_SecurityException e
 			JOIN BatchLoad_Source_Department d
 				ON d.GTB_CDE BETWEEN e.T_CRIT1 AND e.T_CRIT2
@@ -1625,7 +1625,7 @@ FROM
 			u.UserId,
 			t.TeamPrimaryCode,
 			t.TeamName,
-			'07 Based on Segment Exception' AS MembershipType
+			'07 Based on Segment Exception ' + CASE IsUserExplicit WHEN 1 THEN '(User)' ELSE '(Profile)' END AS MembershipType
 		FROM BatchLoad_Source_SecurityException e
 			JOIN BatchLoad_Source_Segment s
 				ON s.GTB_CDE BETWEEN e.T_CRIT1 AND e.T_CRIT2
@@ -1643,7 +1643,7 @@ FROM
 			u.UserId,
 			t.TeamPrimaryCode,
 			t.TeamName,
-			'08 Based on Service Type Exception' AS MembershipType
+			'08 Based on Service Type Exception ' + CASE IsUserExplicit WHEN 1 THEN '(User)' ELSE '(Profile)' END AS MembershipType
 		FROM BatchLoad_Source_SecurityException e
 			JOIN BatchLoad_Mapping m
 				ON m.S2iValue BETWEEN e.T_CRIT1 AND e.T_CRIT2
