@@ -1597,6 +1597,11 @@ FROM
 				ON d.GTB_CDE = LEFT(seg.GTB_CDE_1, 4)
 			JOIN v_BatchLoad_Security_Team t
 				ON seg.GTB_CDE = t.TeamPrimaryCode 
+			LEFT OUTER JOIN BatchLoad_Source_SecurityException e
+				ON v.UserId = e.C_USERID
+				AND e.C_TYPE_ACT = 'IN'
+				AND e.C_TYPE_INFO IN ('DPT', 'SIESE')
+		WHERE e.C_USERID IS NULL
 
 		UNION
 			
